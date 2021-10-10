@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "PokeGuideGenerator": {
+      "commandName": "Project",
+      "commandLineArgs": "-g 3"
+    }
+  }
+}
