@@ -8,7 +8,9 @@ Using .NET 5.0 and consuming data from [PokeAPI](https://pokeapi.co) by using th
 
 ## Installation
 
-You will need to have [.NET 5.0](https://dotnet.microsoft.com/download/dotnet/5.0) installed to run the console application.
+You will need to have [.NET 5.0](https://dotnet.microsoft.com/download/dotnet/5.0) installed to build and run the console application from source.
+
+If you download the executable you will not need anything else as it comes prepackaged and ready to go (Windows only at the moment).
 
 ## Usage
 
