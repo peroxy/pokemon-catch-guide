@@ -12,7 +12,7 @@ You will need to have [.NET 5.0](https://dotnet.microsoft.com/download/dotnet/5.
 
 ## Usage
 
-Generate a CSV file for your generation by downloading the executable or building from the source.
+Generate a CSV file for your generation by downloading the executable or building from the source. It will generate a CSV file named `encounters.csv` in the current directory.
 
 You may use the following arguments:
 
