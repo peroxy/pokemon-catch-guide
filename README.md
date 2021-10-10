@@ -1,5 +1,7 @@
 # Pokemon Catching Guide
 
+![Banner](banner.jpg)
+
 Generate a CSV file of the best Pokemon locations in specific generation. Used to help Catch Em All in every single generation.
 
 Using .NET 5.0 and consuming data from [PokeAPI](https://pokeapi.co) by using the [PokeAPI .NET wrapper](https://github.com/mtrdp642/PokeApiNet).
