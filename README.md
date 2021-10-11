@@ -8,7 +8,15 @@ Using .NET 5.0 and consuming data from [PokeAPI](https://pokeapi.co) by using th
 
 ## Limitations
 
-Currently only generations 1-6 (I - R/B/Y, II - G/S/C, III - FR/LG/R/S/E/COL/XD, IV - D/P/Pt/HG/SS, V - B/W/B2/W2 and VI - X/Y/OR/AS) are supported. Generations 7 (VII - S/M/US/UM/LGP/LGE) and 8 (VIII - SW/SH) lack encounter data that is provided by [PokeAPI](https://pokeapi.co)(as of 2021-10-11). However, those encounters should be generated correctly when the data does get updated eventually.
+Currently only games from generations 1 to 6 are supported:
+- `I` - Red, Blue, Yellow
+- `II` - Gold, Silver, Crystal
+- `III` - FireRed, LeafGreen, Ruby, Sapphire, Emerald, Colloseum, XD Gale Of Darkness
+- `IV` - Diamond, Pearl, Platinum, HeartGold, SoulSilver
+- `V` - Black, White, Black 2, White 2,
+- `VI` - X, Y, Omega Ruby, Alpha Sapphire.
+
+Generations 7 (`VII` - Sun, Moon, Ultra Sun, Ultra Moon, Let's Go Pikachu, Let's Go Eevee) and 8 (`VIII` - Sword, Shield) lack encounter data that is provided by [PokeAPI](https://pokeapi.co)(as of 2021-10-11). However, those encounters should be generated correctly when the data does get updated eventually.
 
 ## Installation
 
