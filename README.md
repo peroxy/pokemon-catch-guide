@@ -8,7 +8,7 @@ Using .NET 5.0 and consuming data from [PokeAPI](https://pokeapi.co) by using th
 
 ## Limitations
 
-Currently only games from generations 1 to 6 are supported:
+Currently games from generations 1 to 6 are supported:
 - `I` - Red, Blue, Yellow
 - `II` - Gold, Silver, Crystal
 - `III` - FireRed, LeafGreen, Ruby, Sapphire, Emerald, Colloseum, XD Gale Of Darkness
