@@ -23,17 +23,29 @@ Generate a CSV file for your generation by downloading the executable or buildin
 You may use the following arguments:
 
 ```shell
-#  -g, --generation    Required. Set Pokemon generation (min 1, max 8).
-#  -s, --side-games    Optional. Include side games (like XD/Colloseum).
-#  --help              Display this help screen.
-#  --version           Display version information.
+.\PokeGuideGenerator.exe --help
+# -g, --generation    Required. Set Pokemon generation (1-6). Generations 7 and 8 currently lack encounter data in
+#                     PokeApi (as of 2021-10-11), however, they should be supported just fine by this generator once the
+#                     data is there.
+# 
+# -s, --side-games    Optional. Include side games (like XD/Colloseum).
+# 
+# -f, --from          Optional. Start generating from this pokedex number (including this one).
+# 
+# -t, --to            Optional. Generate until this pokedex number (including this one).
+# 
+# -o, --output        Optional (Default: encounters.csv). Output CSV file path, e.g. ~\dir\pokemon.csv. Default is encounters.csv in current directory.
+# 
+# --help              Display this help screen.
+# 
+# --version           Display version information.
 ```
 
 ### Executable
 
 ```shell
 cd executable-dir
-.\PokeGuideGenerator.exe -g 3 -s
+.\PokeGuideGenerator.exe --generation 3 --side-games --from 1 --to 151 --output ~\pokemon.csv
 ```
 
 ### Build from source
@@ -42,7 +54,7 @@ cd executable-dir
 cd pokemon-catch-guide\PokeGuideGenerator
 dotnet restore
 dotnet build
-dotnet run -- -g 3 -s
+dotnet run -- --generation 3 --side-games --from 1 --to 151 --output ~\pokemon.csv
 ```
 
 ## Contributing

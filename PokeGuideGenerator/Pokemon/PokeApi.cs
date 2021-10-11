@@ -11,11 +11,6 @@ using static PokeGuideGenerator.Program;
 
 namespace PokeGuideGenerator
 {
-    //TODO: method to evolve? when to evolve?
-    //we need to lookup the pokemon species first from the existing evolution triggers
-    //-> /pokemon-species/{id}/
-    //-> then /evolution-chain/{id}
-    //then a method that checks which properties are SET and put that into the evolveMethod string for csv
     public class PokeApi
     {
         private const string apiEndpoint = "https://pokeapi.co/api/v2";
