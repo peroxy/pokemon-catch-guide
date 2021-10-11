@@ -2,7 +2,7 @@
   "profiles": {
     "PokeGuideGenerator": {
       "commandName": "Project",
-      "commandLineArgs": "-g 8 -o gen8.csv"
+      "commandLineArgs": "-g 1 -o gen1.csv"
     }
   }
 }

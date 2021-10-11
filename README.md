@@ -2,9 +2,13 @@
 
 ![Banner](banner.jpg)
 
-Generate a CSV file of the best Pokemon locations in specific generation. Used to help Catch Em All in every single generation.
+Generate a CSV file of the best Pokemon locations in specific generation. Used to help catch em' all in every generation.
 
 Using .NET 5.0 and consuming data from [PokeAPI](https://pokeapi.co) by using the [PokeAPI .NET wrapper](https://github.com/mtrdp642/PokeApiNet).
+
+## Limitations
+
+Currently only generations 1-6 (I - R/B/Y, II - G/S/C, III - FR/LG/R/S/E/COL/XD, IV - D/P/Pt/HG/SS, V - B/W/B2/W2 and VI - X/Y/OR/AS) are supported. Generations 7 (VII - S/M/US/UM/LGP/LGE) and 8 (VIII - SW/SH) lack encounter data that is provided by [PokeAPI](https://pokeapi.co)(as of 2021-10-11). However, those encounters should be generated correctly when the data does get updated eventually.
 
 ## Installation
 
