@@ -81,29 +81,31 @@ The generated CSV file contains headers:
   - `evolution_method` (how to evolve the Pokemon),
   - `baby` (is this Pokemon a baby).
 
-Example of the first 20 Pokemon from generation `III` CSV:
+Example of 20 Pokemon from generation `III` CSV:
 ```csv
 id;name;location;version;conditions;method;chance;minLvl;maxLvl;trigger;evolution_method;baby;
-1;bulbasaur;pallet-town-area;FR/LG;;gift;100%;5;5;;;no;
-2;ivysaur;no-location;;;;;;;level-up;min_level:16;no;
-3;venusaur;no-location;;;;;;;level-up;min_level:32;no;
-4;charmander;pallet-town-area;FR/LG;;gift;100%;5;5;;;no;
-5;charmeleon;no-location;;;;;;;level-up;min_level:16;no;
-6;charizard;no-location;;;;;;;level-up;min_level:36;no;
-7;squirtle;pallet-town-area;FR/LG;;gift;100%;5;5;;;no;
-8;wartortle;no-location;;;;;;;level-up;min_level:16;no;
-9;blastoise;no-location;;;;;;;level-up;min_level:36;no;
-10;caterpie;kanto-route-25-area;FR/LG;;walk;20%;8;8;;;no;
-11;metapod;pattern-bush-area;FR/LG;;walk;5%;9;9;level-up;min_level:7;no;
-12;butterfree;no-location;;;;;;;level-up;min_level:10;no;
-13;weedle;kanto-route-25-area;FR/LG;;walk;20%;8;8;;;no;
-14;kakuna;pattern-bush-area;FR/LG;;walk;20%;9;9;level-up;min_level:7;no;
-15;beedrill;no-location;;;;;;;level-up;min_level:10;no;
-16;pidgey;five-isle-meadow-area;FR/LG;;walk;20%;44;44;;;no;
-17;pidgeotto;berry-forest-area;FR/LG;;walk;20%;37;37;level-up;min_level:18;no;
-18;pidgeot;no-location;;;;;;;level-up;min_level:36;no;
-19;rattata;kanto-route-9-area;FR/LG;;walk;20%;16;16;;;no;
-20;raticate;pokemon-mansion-b1f;FR/LG;;walk;20%;34;34;level-up;min_level:20;no;
+232;donphan;no-location;;;;;;;level-up;min_level:25;no;
+233;porygon2;no-location;;;;;;;trade;held_item:up-grade;no;
+234;stantler;hoenn-altering-cave-h;E;;walk;20%;24;24;;;no;
+234;stantler;kanto-altering-cave-h;FR/LG;;walk;20%;24;24;;;no;
+235;smeargle;artisan-cave-area;E;;walk;20%;41;41;;;no;
+235;smeargle;kanto-altering-cave-i;FR/LG;;walk;20%;24;24;;;no;
+236;tyrogue;no-location;;;;;;;;;yes;
+237;hitmontop;no-location;;;;;;;level-up;min_level:20/stats:0;no;
+238;smoochum;no-location;;;;;;;;;yes;
+239;elekid;no-location;;;;;;;;;yes;
+240;magby;no-location;;;;;;;;;yes;
+241;miltank;hoenn-safari-zone-expansion-north;E;;walk;4%;37;37;;;no;
+242;blissey;no-location;;;;;;;level-up;min_happiness:220;no;
+243;raikou;roaming-kanto-area;FR/LG;story-progress-beat-elite-four-round-two,starter-squirtle;only-one;100%;50;50;;;no;
+244;entei;roaming-kanto-area;FR/LG;story-progress-beat-elite-four-round-two,starter-bulbasaur;only-one;100%;50;50;;;no;
+245;suicune;roaming-kanto-area;FR/LG;story-progress-beat-elite-four-round-two,starter-charmander;only-one;100%;50;50;;;no;
+246;larvitar;sevault-canyon-area;FR/LG;;walk;4%;15;15;;;no;
+247;pupitar;no-location;;;;;;;level-up;min_level:30;no;
+248;tyranitar;no-location;;;;;;;level-up;min_level:55;no;
+249;lugia;navel-rock-area;E/FR/LG;;only-one;100%;70;70;;;no;
+250;ho-oh;navel-rock-area;E/FR/LG;;only-one;100%;70;70;;;no;
+251;celebi;no-location;;;;;;;;;no;
 ```
 
 ## Contributing
