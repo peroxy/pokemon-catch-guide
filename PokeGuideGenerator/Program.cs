@@ -5,6 +5,7 @@ namespace PokeGuideGenerator
 {
     public class Program
     {
+        //TODO: add progress bar
         public class Options
         {
             [Option('g', "generation", Required = true, HelpText = "Set Pokemon generation (1-6). Generations 7 and 8 currently lack encounter data in PokeApi (as of 2021-10-11), however, they should be supported just fine by this generator once the data is there.")]
