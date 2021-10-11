@@ -26,7 +26,7 @@ If you download the executable you will not need anything else as it comes prepa
 
 ## Usage
 
-Generate a CSV file for your generation by downloading the executable or building from the source. It will generate a CSV file named `encounters.csv` in the current directory.
+Generate a CSV file for your generation by downloading the executable or building from the source. It will generate a CSV file with the best encounters for each game in the current directory.
 
 You may use the following arguments:
 
