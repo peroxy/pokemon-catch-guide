@@ -16,7 +16,7 @@ Currently games from generations 1 to 6 are supported:
 - `V` - Black, White, Black 2, White 2,
 - `VI` - X, Y, Omega Ruby, Alpha Sapphire.
 
-Generations 7 (`VII` - Sun, Moon, Ultra Sun, Ultra Moon, Let's Go Pikachu, Let's Go Eevee) and 8 (`VIII` - Sword, Shield) lack encounter data that is provided by [PokeAPI](https://pokeapi.co)(as of 2021-10-11). However, those encounters should be generated correctly when the data does get updated eventually.
+Generations 7 (`VII` - Sun, Moon, Ultra Sun, Ultra Moon, Let's Go Pikachu, Let's Go Eevee) and 8 (`VIII` - Sword, Shield) lack encounter data that is provided by [PokeAPI](https://pokeapi.co) (as of 2021-10-11). However, those encounters should be generated correctly when the data does get updated eventually.
 
 ## Installation
 
@@ -32,6 +32,7 @@ You may use the following arguments:
 
 ```shell
 .\PokeGuideGenerator.exe --help
+
 # -g, --generation    Required. Set Pokemon generation (1-6). Generations 7 and 8 currently lack encounter data in
 #                     PokeApi (as of 2021-10-11), however, they should be supported just fine by this generator once the
 #                     data is there.
