@@ -974,12 +974,6 @@ namespace PokeGuideGenerator
             };
         }
 
-        /// <summary>
-        /// Get
-        /// </summary>
-        /// <param name="generation"></param>
-        /// <param name="includeSideGames"></param>
-        /// <returns></returns>
         public static string[] GetVersions(PokemonGeneration generation, bool includeSideGames = false)
         {
             return generation switch
@@ -987,7 +981,7 @@ namespace PokeGuideGenerator
                 PokemonGeneration.I => new[] { "red", "blue", "yellow" },
                 PokemonGeneration.II => new[] { "gold", "silver", "crystal" },
                 PokemonGeneration.III => includeSideGames ?
-                new[] { "firered", "leafgreen", "ruby", "sapphire", "emerald", "colloseum", "xd" } : 
+                new[] { "firered", "leafgreen", "ruby", "sapphire", "emerald", "colloseum", "xd" } :
                 new[] { "firered", "leafgreen", "ruby", "sapphire", "emerald" },
                 PokemonGeneration.IV => new[] { "diamond", "pearl", "platinum", "heartgold", "soulsilver" },
                 PokemonGeneration.V => new[] { "black", "white", "black-2", "white-2" },

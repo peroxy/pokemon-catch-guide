@@ -3,27 +3,25 @@ using System.Linq;
 
 namespace PokeGuideGenerator
 {
-    internal partial class Program
+    public record EncounterInfo(int PokemonId, string Name, string Location, string Version, Encounter Details, string Evolution)
     {
-        public record EncounterInfo(int PokemonId, string Name, string Location, string Version, Encounter Details, string Evolution)
+        public override string ToString()
         {
-            public override string ToString()
+            if (Details == null)
             {
-                if (Details == null)
-                {
-                    return $"{PokemonId};{Name};{Location};{Version};;;;;;{Evolution};";
-                }
-                return $"{PokemonId};{Name};{Location};{Version};{string.Join(',', Details?.ConditionValues.Select(x => x.Name))};{Details?.Method.Name};{Details?.Chance}%;{Details?.MinLevel};{Details?.MaxLevel};{Evolution};";
+                return $"{PokemonId};{Name};{Location};{Version};;;;;;{Evolution};";
             }
-
-            public string ToStringWithShortVersion()
-            {
-                if (Details == null)
-                {
-                    return $"{PokemonId};{Name};{Location};{PokemonUtil.LongVersionToShort(Version)};;;;;;{Evolution};";
-                }
-                return $"{PokemonId};{Name};{Location};{PokemonUtil.LongVersionToShort(Version)};{string.Join(',', Details?.ConditionValues.Select(x => x.Name))};{Details?.Method.Name};{Details?.Chance}%;{Details?.MinLevel};{Details?.MaxLevel};{Evolution};";
-            }
+            return $"{PokemonId};{Name};{Location};{Version};{string.Join(',', Details?.ConditionValues.Select(x => x.Name))};{Details?.Method.Name};{Details?.Chance}%;{Details?.MinLevel};{Details?.MaxLevel};{Evolution};";
         }
+
+        public string ToStringWithShortVersion()
+        {
+            if (Details == null)
+            {
+                return $"{PokemonId};{Name};{Location};{PokemonUtil.LongVersionToShort(Version)};;;;;;{Evolution};";
+            }
+            return $"{PokemonId};{Name};{Location};{PokemonUtil.LongVersionToShort(Version)};{string.Join(',', Details?.ConditionValues.Select(x => x.Name))};{Details?.Method.Name};{Details?.Chance}%;{Details?.MinLevel};{Details?.MaxLevel};{Evolution};";
+        }
+
     }
 }
