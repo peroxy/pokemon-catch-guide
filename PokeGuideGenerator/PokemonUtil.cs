@@ -950,12 +950,52 @@ namespace PokeGuideGenerator
 
         public static string PokedexNumberToName(int number)
         {
-            return dexToNumber[number];
+            return dexToNumber[number].ToLowerInvariant();
         }
 
         public static string LongVersionToShort(string longVersion)
         {
             return versionToShort[longVersion];
+        }
+
+
+        private static readonly HashSet<string> _hyphenExceptions = new()
+        {
+            "nidoran-m",
+            "nidoran-f",
+            "ho-oh",
+            "mr-mime",
+            "mime-jr",
+            "porygon-z",
+            "type-null",
+            "jangmo-o",
+            "hakamo-o",
+            "kommo-o",
+            "tapu-koko",
+            "tapu-lele",
+            "tapu-bulu",
+            "tapu-fini",
+            "mr-rime"
+        };
+
+        public static string PokemonNameToSpeciesName(string pokemonName)
+        {
+            // handle pokemon names with forms like deoxys-normal, urshifu-single-strike,..
+            // species name will be without form name deoxys and urshifu
+            // special cases are pokemon that have a legit hyphen in their name
+            if (pokemonName.Contains('-'))
+            {
+                if (_hyphenExceptions.Contains(pokemonName))
+                {
+                    return pokemonName;
+                }
+                else
+                {
+                    return pokemonName.Split('-')[0];
+                }
+            }
+
+            return pokemonName;
         }
 
         public static int GetMaxPokedexNumber(PokemonGeneration generation)

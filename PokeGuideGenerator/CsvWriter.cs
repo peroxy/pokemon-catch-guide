@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace PokeGuideGenerator
 {
@@ -12,7 +11,7 @@ namespace PokeGuideGenerator
 
         public void WriteToCsv(List<EncounterInfo>[] encounters, string path)
         {
-            var csv = new StringBuilder($"id;name;location;version;conditions;method;chance;minLvl;maxLvl;{Environment.NewLine}");
+            var csv = new StringBuilder($"id;name;location;version;conditions;method;chance;minLvl;maxLvl;trigger;evolution_method;baby;{Environment.NewLine}");
             foreach (var encounterInfos in encounters)
             {
                 var bestEncounters = GetBestEncountersPerVersion(encounterInfos).ToList();
@@ -21,7 +20,8 @@ namespace PokeGuideGenerator
                     if (encounter.Count() > 1)
                     {
                         var multipleVersions = string.Join('/', encounter.Select(x => PokemonUtil.LongVersionToShort(x.Version)));
-                        var multipleVersionEncounter = new EncounterInfo(encounter.Key.PokemonId, encounter.Key.Name, encounter.Key.Location, multipleVersions, encounter.First().Details, encounter.First().Evolution);
+                        var firstEncounter = encounter.First();
+                        var multipleVersionEncounter = new EncounterInfo(encounter.Key.PokemonId, encounter.Key.Name, encounter.Key.Location, multipleVersions, firstEncounter.Details, firstEncounter.EvolutionTrigger, firstEncounter.EvolutionMethod, firstEncounter.IsBaby);
                         csv.AppendLine(multipleVersionEncounter.ToString());
                     }
                     else

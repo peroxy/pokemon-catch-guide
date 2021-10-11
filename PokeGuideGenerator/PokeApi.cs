@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static PokeGuideGenerator.Program;
 
 namespace PokeGuideGenerator
 {
@@ -21,48 +22,37 @@ namespace PokeGuideGenerator
         private readonly IRestClient _restClient = new RestClient(apiEndpoint);
         private readonly PokeApiClient _pokeApiClient = new PokeApiClient();
 
-        public async Task<List<EncounterInfo>[]> GetEncountersForGeneration(PokemonGeneration generation, bool includeSideGames)
+        public async Task<List<EncounterInfo>[]> GetEncounters(Options options)
         {
-            var evolutionTriggers = await GetEvolutionTriggers();
-
             var requests = new List<Task<List<EncounterInfo>>>();
-            int maxPokedexNumber = PokemonUtil.GetMaxPokedexNumber(generation);
-            var versions = PokemonUtil.GetVersions(generation, includeSideGames);
-            for (int i = 1; i <= maxPokedexNumber; i++)
+
+            int minPokedexNumber = 1;
+            int maxPokedexNumber = PokemonUtil.GetMaxPokedexNumber(options.Generation);
+            if (options.FromDexNumber.HasValue)
             {
-                requests.Add(GetEncounterInfo(i, PokemonUtil.PokedexNumberToName(i), versions, evolutionTriggers));
+                minPokedexNumber = options.FromDexNumber.Value;
+            }
+            if (options.ToDexNumber.HasValue)
+            {
+                maxPokedexNumber = options.ToDexNumber.Value;
+            }
+
+            var versions = PokemonUtil.GetVersions(options.Generation, options.IncludeSideGames);
+            for (int i = minPokedexNumber; i <= maxPokedexNumber; i++)
+            {
+                requests.Add(GetEncounterInfo(i, versions));
             }
 
             Console.WriteLine("Getting all encounters, please wait...");
             return await Task.WhenAll(requests);
         }
 
-        private async Task<List<EvolutionTrigger>> GetEvolutionTriggers()
+        private async Task<List<EncounterInfo>> GetEncounterInfo(int pokemonId, string[] versions)
         {
-            var response = await _restClient.ExecuteGetAsync(new RestRequest("/evolution-trigger"));
-            var triggers = JsonConvert.DeserializeObject<EvoTriggers>(response.Content);
-
-            var requests = new List<Task<IRestResponse>>();
-            foreach (var trigger in triggers.Results)
-            {
-                requests.Add(_restClient.ExecuteGetAsync(new RestRequest($"/evolution-trigger/{trigger.Name}")));
-            }
-
-            var responses = await Task.WhenAll(requests);
-            var evolutionTriggers = new List<EvolutionTrigger>();
-            foreach (var resp in responses)
-            {
-                evolutionTriggers.Add(JsonConvert.DeserializeObject<EvolutionTrigger>(resp.Content));
-            }
-
-            return evolutionTriggers;
-        }
-
-        private async Task<List<EncounterInfo>> GetEncounterInfo(int pokemonId, string pokemonName, string[] versions, List<EvolutionTrigger> evolutionTriggers)
-        {
-            Debug.WriteLine($"GET encounters for {pokemonId}-{pokemonName}");
-
             var pokemon = await _pokeApiClient.GetResourceAsync<Pokemon>(pokemonId);
+
+            Debug.WriteLine($"GET encounters for {pokemonId}-{pokemon.Name}");
+
             var species = await _pokeApiClient.GetResourceAsync<PokemonSpecies>(pokemon.Species.Name);
 
             var encountersResponse = await _restClient.ExecuteGetAsync(new RestRequest($"/pokemon/{pokemonId}/encounters"));
@@ -70,9 +60,9 @@ namespace PokeGuideGenerator
 
             var evolutionChainResponse = await _restClient.ExecuteGetAsync(new RestRequest($"/evolution-chain/{GetIdFromUrl(species.EvolutionChain.Url)}"));
             var evolutionChain = JsonConvert.DeserializeObject<EvolutionChain>(evolutionChainResponse.Content);
+            var evolutionInfo = GetEvolutionInfoFromEvolutionChain(pokemon.Name, evolutionChain);
 
             var encounters = new List<EncounterInfo>();
-            var evolutionTrigger = evolutionTriggers.FirstOrDefault(x => x.PokemonSpecies.Any(y => GetIdFromUrl(y.Url) == pokemonId))?.Name;
 
             foreach (var locationAreaEncounter in locationAreaEncounters)
             {
@@ -82,7 +72,7 @@ namespace PokeGuideGenerator
                     {
                         foreach (var details in version.EncounterDetails)
                         {
-                            encounters.Add(new EncounterInfo(pokemonId, pokemonName, locationAreaEncounter.LocationArea.Name, version.Version.Name, details, evolutionTrigger));
+                            encounters.Add(new EncounterInfo(pokemonId, pokemon.Name, locationAreaEncounter.LocationArea.Name, version.Version.Name, details, evolutionInfo.Trigger, evolutionInfo.Method, evolutionInfo.IsBaby));
                         }
                     }
                 }
@@ -90,9 +80,151 @@ namespace PokeGuideGenerator
 
             if (encounters.Count == 0)
             {
-                return new List<EncounterInfo> { new EncounterInfo(pokemonId, pokemonName, "no-location", "none", null, evolutionTrigger) };
+                return new List<EncounterInfo> { new EncounterInfo(pokemonId, pokemon.Name, "no-location", "none", null, evolutionInfo.Trigger, evolutionInfo.Method, evolutionInfo.IsBaby) };
             }
             return encounters;
+        }
+
+
+        private (string Trigger, string Method, bool IsBaby) GetEvolutionInfoFromEvolutionChain(string pokemonName, EvolutionChain evolutionChain)
+        {
+            string species = PokemonUtil.PokemonNameToSpeciesName(pokemonName);
+
+            if (evolutionChain.Chain.Species.Name == species)
+            {
+                return (null, null, evolutionChain.Chain.IsBaby);
+            }
+
+            var chain = GetPokemonInEvolutionChain(species, evolutionChain.Chain);
+            if (chain == null)
+            {
+                Debugger.Break();
+            }
+            return ChainToEvolutionInfo(chain);
+        }
+
+        private static (string Trigger, string Method, bool IsBaby) ChainToEvolutionInfo(ChainLink chain)
+        {
+            var evoDetails = chain.EvolutionDetails.FirstOrDefault();
+            string trigger = evoDetails?.Trigger?.Name;
+            bool isBaby = chain.IsBaby;
+
+            if (evoDetails == null)
+            {
+                return (trigger, null, isBaby);
+            }
+
+            var method = new StringBuilder();
+            if (evoDetails.Gender.HasValue)
+            {
+                method.Append($"gender:{evoDetails.Gender}/");
+            }
+            if (evoDetails.HeldItem != null)
+            {
+                method.Append($"held_item:{evoDetails.HeldItem.Name}/");
+            }
+            if (evoDetails.Item != null)
+            {
+                method.Append($"item:{evoDetails.Item.Name}/");
+            }
+            if (evoDetails.KnownMove != null)
+            {
+                method.Append($"known_move:{evoDetails.KnownMove.Name}/");
+            }
+            if (evoDetails.KnownMoveType != null)
+            {
+                method.Append($"known_move_type:{evoDetails.KnownMoveType.Name}/");
+            }
+            if (evoDetails.Location != null)
+            {
+                method.Append($"location:{evoDetails.Location.Name}/");
+            }
+            if (evoDetails.MinAffection.HasValue)
+            {
+                method.Append($"min_affection:{evoDetails.MinAffection}/");
+            }
+            if (evoDetails.MinBeauty.HasValue)
+            {
+                method.Append($"min_beauty:{evoDetails.MinBeauty}/");
+            }
+            if (evoDetails.MinHappiness.HasValue)
+            {
+                method.Append($"min_happiness:{evoDetails.MinHappiness}/");
+            }
+            if (evoDetails.MinLevel.HasValue)
+            {
+                method.Append($"min_level:{evoDetails.MinLevel}/");
+            }
+            if (evoDetails.NeedsOverworldRain)
+            {
+                method.Append($"need_rain/");
+            }
+            if (evoDetails.PartySpecies != null)
+            {
+                method.Append($"party_species:{evoDetails.PartySpecies.Name}/");
+            }
+            if (evoDetails.PartyType != null)
+            {
+                method.Append($"party_type:{evoDetails.PartyType.Name}/");
+            }
+            if (evoDetails.RelativePhysicalStats.HasValue)
+            {
+                method.Append($"stats:{evoDetails.RelativePhysicalStats}/");
+            }
+            if (!string.IsNullOrWhiteSpace(evoDetails.TimeOfDay))
+            {
+                method.Append($"time:{evoDetails.TimeOfDay}/");
+            }
+            if (evoDetails.TradeSpecies != null)
+            {
+                method.Append($"trade_species:{evoDetails.TradeSpecies.Name}/");
+            }
+            if (evoDetails.TurnUpsideDown)
+            {
+                method.Append($"turn_upside_down/");
+            }
+
+            if (method.Length == 0)
+            {
+                return (trigger, null, isBaby);
+            }
+
+            method = method.Remove(method.Length - 1, 1); //remove trailing /
+            return (trigger, method.ToString(), isBaby);
+        }
+
+        private ChainLink GetPokemonInEvolutionChain(string speciesName, ChainLink chain)
+        {
+            if (chain == null)
+            {
+                return null;
+            }
+            else if (chain.Species.Name == speciesName)
+            {
+                return chain;
+            }
+            else if (chain.EvolvesTo.Count == 0)
+            {
+                return null;
+            }
+
+            foreach (var evolveTo in chain.EvolvesTo)
+            {
+                if (evolveTo.Species.Name == speciesName)
+                {
+                    return evolveTo;
+                }
+                else
+                {
+                    var possibleChain = GetPokemonInEvolutionChain(speciesName, evolveTo);
+                    if (possibleChain != null)
+                    {
+                        return possibleChain;
+                    }
+                }
+            }
+
+            return null;
         }
 
         private static int GetIdFromUrl(string url)
