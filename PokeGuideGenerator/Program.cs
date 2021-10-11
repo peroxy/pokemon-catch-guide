@@ -7,7 +7,7 @@ namespace PokeGuideGenerator
     {
         public class Options
         {
-            [Option('g', "generation", Required = true, HelpText = "Set Pokemon generation (1-8).")]
+            [Option('g', "generation", Required = true, HelpText = "Set Pokemon generation (1-6). Generations 7 and 8 currently lack encounter data in PokeApi (as of 2021-10-11), however, they should be supported just fine by this generator once the data is there.")]
             public PokemonGeneration Generation { get; set; }
 
             [Option('s', "side-games", Required = false, HelpText = "Include side games (like XD/Colloseum).")]
