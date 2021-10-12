@@ -23,7 +23,8 @@ namespace PokeGuideGenerator.CSV
             {
                 var bestEncounters = _options.IncludeAllEncounters ? encounterInfos : GetBestEncountersPerVersion(encounterInfos).ToList();
 
-                foreach (var encounter in bestEncounters.GroupBy(x => new { x.Location, x.Name, x.PokemonId, x.Details?.Chance, MethodName = x.Details?.Method.Name }))
+                foreach (var encounter in bestEncounters.GroupBy(x => new
+                    { x.Location, x.Name, x.PokemonId, x.Details?.Chance, MethodName = x.Details?.Method.Name, x.Details?.MinLevel, x.Details?.MaxLevel }))
                 {
                     if (encounter.Count() > 1)
                     {

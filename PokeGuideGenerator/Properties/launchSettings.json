@@ -2,7 +2,7 @@
   "profiles": {
     "PokeGuideGenerator": {
       "commandName": "Project",
-      "commandLineArgs": "-g 1"
+      "commandLineArgs": "-g 1 -a"
     }
   }
 }
