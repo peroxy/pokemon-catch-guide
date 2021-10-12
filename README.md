@@ -84,7 +84,8 @@ The generated CSV file contains headers:
   - `maxLvl` (maximum possible level of the Pokemon for this encounter),
   - `trigger` (type of evolution),
   - `evolution_method` (how to evolve the Pokemon),
-  - `baby` (is this Pokemon a baby).
+  - `baby` (is this Pokemon a baby),
+  - `generation` (video game generation encounter appears in).
 
 Example of 20 Pokemon from generation `III` CSV:
 ```csv

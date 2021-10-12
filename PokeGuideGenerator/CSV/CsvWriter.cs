@@ -18,7 +18,7 @@ namespace PokeGuideGenerator.CSV
 
         public void WriteToCsv(IEnumerable<List<EncounterInfo>> encounters, string path)
         {
-            var csv = new StringBuilder($"id;name;location;version;conditions;method;chance;minLvl;maxLvl;trigger;evolution_method;baby;{Environment.NewLine}");
+            var csv = new StringBuilder($"id;name;location;version;conditions;method;chance;minLvl;maxLvl;trigger;evolution_method;baby;generation;{Environment.NewLine}");
             foreach (var encounterInfos in encounters)
             {
                 var bestEncounters = _options.IncludeAllEncounters ? encounterInfos : GetBestEncountersPerVersion(encounterInfos).ToList();
@@ -31,7 +31,7 @@ namespace PokeGuideGenerator.CSV
                         var multipleVersions = string.Join('/', encounter.Select(x => PokemonUtil.LongVersionToShort(x.Version)));
                         var firstEncounter = encounter.First();
                         var multipleVersionEncounter = new EncounterInfo(encounter.Key.PokemonId, encounter.Key.Name, encounter.Key.Location, multipleVersions,
-                            firstEncounter.Details, firstEncounter.EvolutionTrigger, firstEncounter.EvolutionMethod, firstEncounter.IsBaby);
+                            firstEncounter.Details, firstEncounter.EvolutionTrigger, firstEncounter.EvolutionMethod, firstEncounter.IsBaby, firstEncounter.Generation);
                         csv.AppendLine(multipleVersionEncounter.ToString());
                     }
                     else

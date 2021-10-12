@@ -47,12 +47,12 @@ namespace PokeGuideGenerator.Pokemon
             var versions = PokemonUtil.GetVersions(options.Generation, options.IncludeSideGames);
             for (int i = minPokedexNumber; i <= maxPokedexNumber; i++)
             {
-                requests.Add(GetEncounterInfo(i, versions, pbar));
+                requests.Add(GetEncounterInfo(i, versions, pbar, options.Generation));
             }
             return await Task.WhenAll(requests);
         }
 
-        private async Task<List<EncounterInfo>> GetEncounterInfo(int pokemonId, string[] versions, ProgressBar progressBar)
+        private async Task<List<EncounterInfo>> GetEncounterInfo(int pokemonId, string[] versions, ProgressBar progressBar, PokemonGeneration generation)
         {
             var pokemon = await _pokeApiClient.GetResourceAsync<PokeApiNet.Pokemon>(pokemonId);
 
@@ -77,7 +77,7 @@ namespace PokeGuideGenerator.Pokemon
                     {
                         foreach (var details in version.EncounterDetails)
                         {
-                            encounters.Add(new EncounterInfo(pokemonId, pokemon.Name, locationAreaEncounter.LocationArea.Name, version.Version.Name, details, evolutionInfo.Trigger, evolutionInfo.Method, evolutionInfo.IsBaby));
+                            encounters.Add(new EncounterInfo(pokemonId, pokemon.Name, locationAreaEncounter.LocationArea.Name, version.Version.Name, details, evolutionInfo.Trigger, evolutionInfo.Method, evolutionInfo.IsBaby, generation));
                         }
                     }
                 }
@@ -87,7 +87,7 @@ namespace PokeGuideGenerator.Pokemon
             
             if (encounters.Count == 0)
             {
-                return new List<EncounterInfo> { new EncounterInfo(pokemonId, pokemon.Name, "no-location", "none", null, evolutionInfo.Trigger, evolutionInfo.Method, evolutionInfo.IsBaby) };
+                return new List<EncounterInfo> { new EncounterInfo(pokemonId, pokemon.Name, "no-location", "none", null, evolutionInfo.Trigger, evolutionInfo.Method, evolutionInfo.IsBaby, generation) };
             }
             return encounters;
         }
