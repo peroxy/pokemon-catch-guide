@@ -3,25 +3,34 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using PokeGuideGenerator.Pokemon;
 
-namespace PokeGuideGenerator
+namespace PokeGuideGenerator.CSV
 {
     public class CsvWriter
     {
+        private readonly Program.Options _options;
 
-        public void WriteToCsv(List<EncounterInfo>[] encounters, string path)
+        public CsvWriter(Program.Options options)
+        {
+            _options = options;
+        }
+
+        public void WriteToCsv(IEnumerable<List<EncounterInfo>> encounters, string path)
         {
             var csv = new StringBuilder($"id;name;location;version;conditions;method;chance;minLvl;maxLvl;trigger;evolution_method;baby;{Environment.NewLine}");
             foreach (var encounterInfos in encounters)
             {
-                var bestEncounters = GetBestEncountersPerVersion(encounterInfos).ToList();
+                var bestEncounters = _options.IncludeAllEncounters ? encounterInfos : GetBestEncountersPerVersion(encounterInfos).ToList();
+
                 foreach (var encounter in bestEncounters.GroupBy(x => new { x.Location, x.Name, x.PokemonId, x.Details?.Chance, MethodName = x.Details?.Method.Name }))
                 {
                     if (encounter.Count() > 1)
                     {
                         var multipleVersions = string.Join('/', encounter.Select(x => PokemonUtil.LongVersionToShort(x.Version)));
                         var firstEncounter = encounter.First();
-                        var multipleVersionEncounter = new EncounterInfo(encounter.Key.PokemonId, encounter.Key.Name, encounter.Key.Location, multipleVersions, firstEncounter.Details, firstEncounter.EvolutionTrigger, firstEncounter.EvolutionMethod, firstEncounter.IsBaby);
+                        var multipleVersionEncounter = new EncounterInfo(encounter.Key.PokemonId, encounter.Key.Name, encounter.Key.Location, multipleVersions,
+                            firstEncounter.Details, firstEncounter.EvolutionTrigger, firstEncounter.EvolutionMethod, firstEncounter.IsBaby);
                         csv.AppendLine(multipleVersionEncounter.ToString());
                     }
                     else

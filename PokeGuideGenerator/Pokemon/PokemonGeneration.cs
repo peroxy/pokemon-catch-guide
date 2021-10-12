@@ -1,4 +1,4 @@
-﻿namespace PokeGuideGenerator
+﻿namespace PokeGuideGenerator.Pokemon
 {
         public enum PokemonGeneration
         {

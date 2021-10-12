@@ -1,7 +1,8 @@
-﻿using PokeApiNet;
-using System.Linq;
+﻿using System.Linq;
+using PokeApiNet;
+using PokeGuideGenerator.CSV;
 
-namespace PokeGuideGenerator
+namespace PokeGuideGenerator.Pokemon
 {
     public record EncounterInfo(int PokemonId, string Name, string Location, string Version, Encounter Details, string EvolutionTrigger, string EvolutionMethod, bool IsBaby)
     {

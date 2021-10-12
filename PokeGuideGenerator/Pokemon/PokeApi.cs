@@ -1,21 +1,22 @@
-﻿using Newtonsoft.Json;
-using PokeApiNet;
-using RestSharp;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using PokeApiNet;
+using RestSharp;
+using ShellProgressBar;
 using static PokeGuideGenerator.Program;
 
-namespace PokeGuideGenerator
+namespace PokeGuideGenerator.Pokemon
 {
     public class PokeApi
     {
-        private const string apiEndpoint = "https://pokeapi.co/api/v2";
-        private readonly IRestClient _restClient = new RestClient(apiEndpoint);
-        private readonly PokeApiClient _pokeApiClient = new PokeApiClient();
+        private const string ApiEndpoint = "https://pokeapi.co/api/v2";
+        private readonly IRestClient _restClient = new RestClient(ApiEndpoint);
+        private readonly PokeApiClient _pokeApiClient = new();
 
         public async Task<List<EncounterInfo>[]> GetEncounters(Options options)
         {
@@ -31,20 +32,29 @@ namespace PokeGuideGenerator
             {
                 maxPokedexNumber = options.ToDexNumber.Value;
             }
-
+            
+            int totalTicks = maxPokedexNumber - minPokedexNumber;
+            var progressBarOptions = new ProgressBarOptions
+            {
+                ForegroundColor = ConsoleColor.Yellow,
+                ForegroundColorDone = ConsoleColor.DarkGreen,
+                BackgroundColor = ConsoleColor.DarkGray,
+                BackgroundCharacter = '\u2593'
+            };
+            
+            Console.WriteLine($"Getting all Pokemon encounters, please wait.{Environment.NewLine}");
+            using var pbar = new ProgressBar(totalTicks, "Fetching Pokemon encounters...", progressBarOptions);
             var versions = PokemonUtil.GetVersions(options.Generation, options.IncludeSideGames);
             for (int i = minPokedexNumber; i <= maxPokedexNumber; i++)
             {
-                requests.Add(GetEncounterInfo(i, versions));
+                requests.Add(GetEncounterInfo(i, versions, pbar));
             }
-
-            Console.WriteLine("Getting all encounters, please wait...");
             return await Task.WhenAll(requests);
         }
 
-        private async Task<List<EncounterInfo>> GetEncounterInfo(int pokemonId, string[] versions)
+        private async Task<List<EncounterInfo>> GetEncounterInfo(int pokemonId, string[] versions, ProgressBar progressBar)
         {
-            var pokemon = await _pokeApiClient.GetResourceAsync<Pokemon>(pokemonId);
+            var pokemon = await _pokeApiClient.GetResourceAsync<PokeApiNet.Pokemon>(pokemonId);
 
             Debug.WriteLine($"GET encounters for {pokemonId}-{pokemon.Name}");
 
@@ -72,7 +82,9 @@ namespace PokeGuideGenerator
                     }
                 }
             }
-
+            
+            progressBar.Tick();
+            
             if (encounters.Count == 0)
             {
                 return new List<EncounterInfo> { new EncounterInfo(pokemonId, pokemon.Name, "no-location", "none", null, evolutionInfo.Trigger, evolutionInfo.Method, evolutionInfo.IsBaby) };
@@ -91,10 +103,6 @@ namespace PokeGuideGenerator
             }
 
             var chain = GetPokemonInEvolutionChain(species, evolutionChain.Chain);
-            if (chain == null)
-            {
-                Debugger.Break();
-            }
             return ChainToEvolutionInfo(chain);
         }
 

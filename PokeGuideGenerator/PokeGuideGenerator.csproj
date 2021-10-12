@@ -10,6 +10,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="PokeApiNet" Version="3.0.3" />
     <PackageReference Include="RestSharp" Version="106.12.0" />
+    <PackageReference Include="ShellProgressBar" Version="5.1.0" />
   </ItemGroup>
 
 </Project>
