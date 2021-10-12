@@ -14,7 +14,7 @@ Currently games from generations 1 to 6 are supported:
 - `III` - FireRed, LeafGreen, Ruby, Sapphire, Emerald, Colloseum, XD Gale Of Darkness
 - `IV` - Diamond, Pearl, Platinum, HeartGold, SoulSilver
 - `V` - Black, White, Black 2, White 2,
-- `VI` - X, Y, Omega Ruby, Alpha Sapphire.
+- `VI` - X, Y (Omega Ruby and Alpha Sapphire are missing a lot of data).
 
 Generations 7 (`VII` - Sun, Moon, Ultra Sun, Ultra Moon, Let's Go Pikachu, Let's Go Eevee) and 8 (`VIII` - Sword, Shield) lack encounter data that is provided by [PokeAPI](https://pokeapi.co) (as of 2021-10-11). However, those encounters should be generated correctly when the data does get updated eventually.
 
