@@ -38,6 +38,10 @@ You may use the following arguments:
 #                     data is there.
 # 
 # -s, --side-games    Optional. Include side games (like XD/Colloseum).
+#
+# -a, --all-encounters    Include every single encounter from each game. By default only the best (highest chance) encounter from
+#                          each game is included.
+#
 # 
 # -f, --from          Optional. Start generating from this pokedex number (including this one).
 # 
@@ -54,7 +58,7 @@ You may use the following arguments:
 
 ```shell
 cd executable-dir
-.\PokeGuideGenerator.exe --generation 3 --side-games --from 1 --to 151 --output ~\pokemon.csv
+.\PokeGuideGenerator.exe --generation 3 --side-games --from 1 --to 151 --output ~\pokemon.csv --all-encounters
 ```
 
 ### Build from source
@@ -63,7 +67,7 @@ cd executable-dir
 cd pokemon-catch-guide\PokeGuideGenerator
 dotnet restore
 dotnet build
-dotnet run -- --generation 3 --side-games --from 1 --to 151 --output ~\pokemon.csv
+dotnet run -- --generation 3 --side-games --from 1 --to 151 --output ~\pokemon.csv --all-encounters
 ```
 
 ## CSV
