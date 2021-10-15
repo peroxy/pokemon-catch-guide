@@ -18,6 +18,8 @@ Currently games from generations 1 to 6 are supported:
 
 Generations 7 (`VII` - Sun, Moon, Ultra Sun, Ultra Moon, Let's Go Pikachu, Let's Go Eevee) and 8 (`VIII` - Sword, Shield) lack encounter data that is provided by [PokeAPI](https://pokeapi.co) (as of 2021-10-11). However, those encounters should be generated correctly when the data does get updated eventually.
 
+Please note that games like Pokemon Go are not supported.
+
 ## Installation
 
 You will need to have [.NET 5.0](https://dotnet.microsoft.com/download/dotnet/5.0) installed to build and run the console application from source.
