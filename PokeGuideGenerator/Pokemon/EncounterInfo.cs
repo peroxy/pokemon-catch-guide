@@ -15,7 +15,7 @@ namespace PokeGuideGenerator.Pokemon
             }
 
             return
-                $"{PokemonId};{Name};{Location};{Version};{string.Join(',', Details?.ConditionValues.Select(x => x.Name))};{Details?.Method.Name};{Details?.Chance}%;{Details?.MinLevel};{Details?.MaxLevel};{EvolutionTrigger};{EvolutionMethod};{IsBaby.ToHumanFormat()};{(int)Generation};";
+                $"{PokemonId};{Name};{Location};{Version};{string.Join(',', Details?.ConditionValues.Select(x => x.Name))};{Details?.Method.Name};{Details?.Chance};{Details?.MinLevel};{Details?.MaxLevel};{EvolutionTrigger};{EvolutionMethod};{IsBaby.ToHumanFormat()};{(int)Generation};";
         }
 
         public string ToStringWithShortVersion()
@@ -27,7 +27,7 @@ namespace PokeGuideGenerator.Pokemon
             }
 
             return
-                $"{PokemonId};{Name};{Location};{PokemonUtil.LongVersionToShort(Version)};{string.Join(',', Details?.ConditionValues.Select(x => x.Name))};{Details?.Method.Name};{Details?.Chance}%;{Details?.MinLevel};{Details?.MaxLevel};{EvolutionTrigger};{EvolutionMethod};{IsBaby.ToHumanFormat()};{(int)Generation};";
+                $"{PokemonId};{Name};{Location};{PokemonUtil.LongVersionToShort(Version)};{string.Join(',', Details?.ConditionValues.Select(x => x.Name))};{Details?.Method.Name};{Details?.Chance};{Details?.MinLevel};{Details?.MaxLevel};{EvolutionTrigger};{EvolutionMethod};{IsBaby.ToHumanFormat()};{(int)Generation};";
         }
     }
 }
