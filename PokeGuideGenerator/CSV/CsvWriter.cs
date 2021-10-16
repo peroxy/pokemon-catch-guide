@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -24,7 +25,7 @@ namespace PokeGuideGenerator.CSV
                 var bestEncounters = _options.IncludeAllEncounters ? encounterInfos : GetBestEncountersPerVersion(encounterInfos).ToList();
 
                 foreach (var encounter in bestEncounters.GroupBy(x => new
-                    { x.Location, x.Name, x.PokemonId, x.Details?.Chance, MethodName = x.Details?.Method.Name, x.Details?.MinLevel, x.Details?.MaxLevel }))
+                    { x.Location, x.Name, x.PokemonId, x.Details?.Chance, MethodName = x.Details?.Method.Name, x.Details?.MinLevel, x.Details?.MaxLevel, x.Conditions }))
                 {
                     if (encounter.Count() > 1)
                     {

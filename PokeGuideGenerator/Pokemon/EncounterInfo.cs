@@ -7,6 +7,8 @@ namespace PokeGuideGenerator.Pokemon
     public record EncounterInfo(int PokemonId, string Name, string Location, string Version, Encounter Details, string EvolutionTrigger, string EvolutionMethod, bool IsBaby,
         PokemonGeneration Generation)
     {
+        public string Conditions => string.Join(',', Details?.ConditionValues.Select(x => x.Name));
+
         public override string ToString()
         {
             if (Details == null)
