@@ -29,7 +29,7 @@ namespace PokeGuideGenerator.CSV
                 {
                     if (encounter.Count() > 1)
                     {
-                        var multipleVersions = string.Join('/', encounter.Select(x => PokemonUtil.LongVersionToShort(x.Version)));
+                        var multipleVersions = string.Join('/', encounter.Select(x => PokemonUtil.LongVersionToShort(x.Version)).Distinct());
                         var firstEncounter = encounter.First();
                         var multipleVersionEncounter = new EncounterInfo(encounter.Key.PokemonId, encounter.Key.Name, encounter.Key.Location, multipleVersions,
                             firstEncounter.Details, firstEncounter.EvolutionTrigger, firstEncounter.EvolutionMethod, firstEncounter.IsBaby, firstEncounter.Generation);
