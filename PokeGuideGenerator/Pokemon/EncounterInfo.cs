@@ -13,11 +13,12 @@ namespace PokeGuideGenerator.Pokemon
         {
             if (Details == null)
             {
-                return $"{PokemonId};{Name};{Location};{Version};;;;;;{EvolutionTrigger};{EvolutionMethod};{IsBaby.ToHumanFormat()};{(int)Generation};";
+                return $"{PokemonId};{Name};{Location};{Version};;;;;;{EvolutionTrigger};{EvolutionMethod};{(IsBaby ? 1 : 0)};{(int)Generation};";
             }
+            
 
             return
-                $"{PokemonId};{Name};{Location};{Version};{string.Join(',', Details?.ConditionValues.Select(x => x.Name))};{Details?.Method.Name};{Details?.Chance};{Details?.MinLevel};{Details?.MaxLevel};{EvolutionTrigger};{EvolutionMethod};{IsBaby.ToHumanFormat()};{(int)Generation};";
+                $"{PokemonId};{Name};{Location};{Version};{string.Join(',', Details?.ConditionValues.Select(x => x.Name))};{Details?.Method.Name};{Details?.Chance};{Details?.MinLevel};{Details?.MaxLevel};{EvolutionTrigger};{EvolutionMethod};{(IsBaby ? 1 : 0)};{(int)Generation};";
         }
 
         public string ToStringWithShortVersion()
@@ -25,11 +26,11 @@ namespace PokeGuideGenerator.Pokemon
             if (Details == null)
             {
                 return
-                    $"{PokemonId};{Name};{Location};{PokemonUtil.LongVersionToShort(Version)};;;;;;{EvolutionTrigger};{EvolutionMethod};{IsBaby.ToHumanFormat()};{(int)Generation};";
+                    $"{PokemonId};{Name};{Location};{PokemonUtil.LongVersionToShort(Version)};;;;;;{EvolutionTrigger};{EvolutionMethod};{(IsBaby ? 1 : 0)};{(int)Generation};";
             }
 
             return
-                $"{PokemonId};{Name};{Location};{PokemonUtil.LongVersionToShort(Version)};{string.Join(',', Details?.ConditionValues.Select(x => x.Name))};{Details?.Method.Name};{Details?.Chance};{Details?.MinLevel};{Details?.MaxLevel};{EvolutionTrigger};{EvolutionMethod};{IsBaby.ToHumanFormat()};{(int)Generation};";
+                $"{PokemonId};{Name};{Location};{PokemonUtil.LongVersionToShort(Version)};{string.Join(',', Details?.ConditionValues.Select(x => x.Name))};{Details?.Method.Name};{Details?.Chance};{Details?.MinLevel};{Details?.MaxLevel};{EvolutionTrigger};{EvolutionMethod};{(IsBaby ? 1 : 0)};{(int)Generation};";
         }
     }
 }
